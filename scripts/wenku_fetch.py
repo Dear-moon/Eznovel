@@ -177,21 +177,26 @@ def _title_volume_no(title):
 def _resolve_volume_numbers(volumes):
     """Map listing position -> real volume number, or None when ambiguous.
 
-    Renaming is only safe on a clean 1..N permutation; anything less (duplicate or
-    out-of-range numbers) would collide or mislabel, so return None then. At most one
-    title may lack a number -- that is the series base title, given the missing volume.
+    Renaming is only safe when the numbers form a run of consecutive, unique values
+    (e.g. 1..13, or 4..20 when a series starts mid-way); anything less (duplicates,
+    gaps) would collide or mislabel, so return None then. At most one title may lack
+    a number -- that is the series base title, given the one missing value in the run.
     """
     n = len(volumes)
     nums = [_title_volume_no(v['volume_id']) for v in volumes]
     missing = [i for i, x in enumerate(nums) if x is None]
-    used = {x for x in nums if x is not None}
-    free = [k for k in range(1, n + 1) if k not in used]
-    # More than one number-less title means numbering is not trustworthy -- do not guess.
-    if len(missing) > 1 or len(free) != len(missing):
+    used = sorted({x for x in nums if x is not None})
+    if not used:
+        return None
+    # Candidate run: starts at the lowest number seen and spans n consecutive values.
+    run = list(range(used[0], used[0] + n))
+    free = [k for k in run if k not in set(used)]
+    # More than one gap/number-less title means numbering is not trustworthy -- do not guess.
+    if len(missing) > 1 or len(free) != len(missing) or not set(used) <= set(run):
         return None
     for i, k in zip(missing, free):
         nums[i] = k
-    return nums if sorted(nums) == list(range(1, n + 1)) else None
+    return nums if sorted(nums) == run else None
 
 
 def _build_volumes(meta):
