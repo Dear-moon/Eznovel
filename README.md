@@ -46,7 +46,6 @@ python ebook.py convert <INPUT>.txt -o <OUTPUT>.epub --title "Title" --author "A
 | [masiro.me](https://masiro.me) 真白萌 | CDP (Edge browser) + login | — | — | masiro.username/password + Edge |
 | [wenku8.net](https://www.wenku8.net) | HTTP (GBK HTML) | — | ✅ | — |
 | [ixinzhi 轻小说文库库](https://github.com/ixinzhi) | GitHub direct EPUB download | finished | varies | — |
-| [bilinovel.com](https://www.bilinovel.com) 哔哩轻小说 | HTTP (curl_cffi; auto-switches to the linovelib mirror) | — | — | — |
 | [syosetu.org](https://syosetu.org) | CDP (Edge browser) | — | ✅ | Edge browser |
 | Local TXT | stdlib | — | — | — |
 
@@ -220,7 +219,6 @@ lightnovel.app delivers chapter text with characters mapped to **Unicode PUA** (
 | `scripts/syosetu_fetch.py` | syosetu.org CDP fetcher (Cloudflare bypass) |
 | `scripts/wenku8_fetch.py` | wenku8.net CDP fetcher |
 | `scripts/ixzbhi_fetch.py` | 轻小说文库 ready-made EPUB direct download (ixinzhi GitHub; cached index + fuzzy search) |
-| `scripts/bilinovel_fetch.py` | 哔哩轻小说 fetcher (pure HTTP; bilinovel truncates, so it auto-switches to the linovelib mirror for full text; 429 backoff + resume) |
 | `scripts/web_fetch.py` | novelia.cc REST API fetcher |
 | `scripts/html2epub_font.py` | HTML directory → font-embedded EPUB (WOFF2→TTF) |
 | `scripts/lightnovel_decode.py` | Offline font decoder for snapshots |

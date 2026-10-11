@@ -470,11 +470,6 @@ def cmd_ixzbhi(args):
     _run('ixzbhi_fetch.py', *args)
 
 
-def cmd_bilinovel(args):
-    """哔哩轻小说 bilinovel/linovelib 抓取（纯 HTTP）"""
-    _run('bilinovel_fetch.py', *args)
-
-
 def cmd_convert(args):
     """TXT → EPUB. --preserve-layout/--convert route to the layout-preserving packer."""
     if '--preserve-layout' in args or any(a in ('--convert', '--chapter-regex', '--cover', '--images-dir') for a in args):
@@ -525,7 +520,6 @@ def print_help():
     print("  refresh-token  自动获取 lightnovel.app RefreshToken (浏览器 IndexedDB)")
     print("  wenku8         wenku8.net CDP 抓取")
     print("  ixzbhi         下载轻小说文库现成 EPUB (ixinzhi GitHub 仓库, 按书名搜直链)")
-    print("  bilinovel      哔哩轻小说 (bilinovel/linovelib) 抓取, 纯 HTTP")
     print("  convert        TXT → EPUB")
     print("                 --preserve-layout 保排版（每段一行/空行=场景间隔），转保排版脚本")
     print("                 --convert t2s|s2t 本地 OpenCC 简繁（走保排版路径）")
@@ -554,7 +548,6 @@ COMMANDS = {
     'novelia': cmd_novelia,
     'wenku8': cmd_wenku8,
     'ixzbhi': cmd_ixzbhi,
-    'bilinovel': cmd_bilinovel,
     'wenku': cmd_wenku,
     'lk': cmd_lk,
     'esj': cmd_esj,
