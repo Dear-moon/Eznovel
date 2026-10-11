@@ -46,6 +46,7 @@ python ebook.py convert <INPUT>.txt -o <OUTPUT>.epub --title "书名" --author "
 | [masiro.me](https://masiro.me) 真白萌 | CDP（Edge 浏览器）+ 登录 | — | — | masiro.username/password + Edge |
 | [wenku8.net](https://www.wenku8.net) | HTTP（GBK HTML） | — | ✅ | — |
 | [ixinzhi 轻小说文库库](https://github.com/ixinzhi) | GitHub 直链下载成品 EPUB | 成品 | 随书 | — |
+| [bilinovel.com](https://www.bilinovel.com) 哔哩轻小说 | HTTP（curl_cffi，自动切 linovelib 镜像） | — | — | — |
 | [syosetu.org](https://syosetu.org) | CDP（Edge 浏览器） | — | ✅ | Edge 浏览器 |
 | 本地 TXT | stdlib | — | — | — |
 
@@ -103,6 +104,10 @@ python ebook.py syosetu -u "https://syosetu.org/novel/<ID>/" --html <OUT_DIR>
 
 # wenku8.net
 python ebook.py wenku8 "https://www.wenku8.net/novel/<CAT>/<ID>/index.htm"
+
+# 哔哩轻小说（bilinovel/linovelib，纯 HTTP，自动走完整正文的镜像）
+python ebook.py bilinovel "https://www.bilinovel.com/novel/<AID>.html" --html <OUT_DIR>
+python ebook.py bilinovel "https://www.bilinovel.com/novel/<AID>.html" -o <OUT>.txt
 
 # 轻小说文库现成 EPUB（ixinzhi GitHub 直链，成品下载，无需抓正文）
 python ebook.py ixzbhi "86-不存在的战区"            # 搜 + 下载最佳匹配
@@ -217,6 +222,7 @@ lightnovel.app 将章节文字映射到 **Unicode PUA 私用区**（U+E000–F8F
 | `scripts/syosetu_fetch.py` | syosetu.org CDP 抓取（Cloudflare 穿透） |
 | `scripts/wenku8_fetch.py` | wenku8.net CDP 抓取 |
 | `scripts/ixzbhi_fetch.py` | 轻小说文库现成 EPUB 直链下载（ixinzhi GitHub，索引缓存 + 模糊搜索） |
+| `scripts/bilinovel_fetch.py` |哔哩轻小说抓取（纯 HTTP；bilinovel 会截断，自动切 linovelib 镜像取完整正文；429 退避 + 断点续抓） |
 | `scripts/web_fetch.py` | novelia.cc REST API 抓取 |
 | `scripts/html2epub_font.py` | HTML 目录 → 字体嵌入 EPUB（WOFF2→TTF） |
 | `scripts/lightnovel_decode.py` | 离线字体解码（快照用） |

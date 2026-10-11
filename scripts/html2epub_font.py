@@ -178,17 +178,18 @@ def build_epub(html_dir: str, output: str, title: str, author: str):
                 image_files[p.name] = p.read_bytes()
                 print(f"  Image: {p.name} ({len(image_files[p.name]):,} bytes)", file=sys.stderr)
 
-    # Detect cover
-    cover_id = None
+    # Detect cover (cover_id is resolved to the real manifest id after the images loop)
+    is_cover = False
     if cover_file and cover_file in image_files:
-        cover_id = 'cover-img'
+        is_cover = True
     elif image_files:
         # Try to find a cover-like image
         for fname in image_files:
             if 'cover' in fname.lower():
                 cover_file = fname
-                cover_id = 'cover-img'
+                is_cover = True
                 break
+    cover_id = None
 
     print(f"Found {len(html_files)} HTML files, {len(image_files)} images", file=sys.stderr)
 
@@ -265,6 +266,10 @@ def build_epub(html_dir: str, output: str, title: str, author: str):
         manifest_items.append(
             f'    <item id="{img_id}" href="images/{fname}" media-type="{mime}"{props}/>'
         )
+    # The EPUB2-style <meta name="cover"> must point at the real manifest id, not a
+    # placeholder, or older readers / Kindle converters cannot find the cover.
+    if is_cover and cover_file in img_ids:
+        cover_id = img_ids[cover_file]
 
     # Chapters
     for i, (ch_title, body, font_asset) in enumerate(chapters):
